@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -8,34 +8,35 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-gray-50 text-gray-800 font-poppins">
+<body class="bg-gray-900 text-gray-100 font-poppins transition-colors duration-300">
   <div class="container mx-auto p-4 sm:p-6 lg:p-8">
-    <header class="mb-8">
-      <h1 class="text-3xl font-bold text-blue-700">Xnotes</h1>
-      <p class="text-gray-500 mt-1">Catatan transaksi ALOOO ID</p>
+    <header class="mb-8 flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold text-blue-400">Xnotes</h1>
+        <p class="text-gray-400 mt-1">Catatan transaksi ALOOO ID</p>
+      </div>
     </header>
 
     <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <!-- Form -->
       <div class="lg:col-span-1">
-        <div class="bg-white p-6 rounded-xl shadow-lg">
-          <h2 class="text-xl font-semibold mb-4 text-blue-600">Tambah Transaksi Baru</h2>
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+          <h2 class="text-xl font-semibold mb-4 text-blue-400">Tambah Transaksi Baru</h2>
           <form id="transaction-form" class="space-y-4">
             <div>
-              <label for="product-name" class="block text-sm font-medium text-gray-700">Nama Produk</label>
-              <input type="text" id="product-name" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+              <label for="product-name" class="block text-sm font-medium text-gray-200">Nama Produk</label>
+              <input type="text" id="product-name" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
             </div>
             <div>
-              <label for="cost-price" class="block text-sm font-medium text-gray-700">Harga Modal (Rp)</label>
-              <input type="text" id="cost-price" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+              <label for="cost-price" class="block text-sm font-medium text-gray-200">Harga Modal (Rp)</label>
+              <input type="text" id="cost-price" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
             </div>
             <div>
-              <label for="sell-price" class="block text-sm font-medium text-gray-700">Harga Jual (Rp)</label>
-              <input type="text" id="sell-price" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+              <label for="sell-price" class="block text-sm font-medium text-gray-200">Harga Jual (Rp)</label>
+              <input type="text" id="sell-price" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
             </div>
             <div>
-              <label for="customer-name" class="block text-sm font-medium text-gray-700">Nama Customer</label>
-              <input type="text" id="customer-name" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+              <label for="customer-name" class="block text-sm font-medium text-gray-200">Nama Customer</label>
+              <input type="text" id="customer-name" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
             </div>
             <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
               Simpan Transaksi
@@ -43,38 +44,37 @@
           </form>
         </div>
 
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-6 rounded-xl shadow-lg mt-8">
+        <div class="bg-green-900 border-l-4 border-green-500 text-green-200 p-6 rounded-xl shadow-lg mt-8">
           <h3 class="text-lg font-semibold">Total Keuntungan</h3>
           <p id="total-profit" class="text-3xl font-bold mt-2">Rp 0</p>
         </div>
       </div>
 
-      <!-- Tabel -->
       <div class="lg:col-span-2">
-        <div class="bg-white p-6 rounded-xl shadow-lg overflow-x-auto max-w-full">
-          <h2 class="text-xl font-semibold mb-4 text-blue-600">Riwayat Transaksi</h2>
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg overflow-x-auto max-w-full">
+          <h2 class="text-xl font-semibold mb-4 text-blue-400">Riwayat Transaksi</h2>
           <div class="overflow-x-auto max-w-full">
-            <table class="min-w-full divide-y divide-gray-200 table-auto">
-              <thead class="bg-gray-50">
+            <table class="min-w-full divide-y divide-gray-700 table-auto">
+              <thead class="bg-gray-700">
                 <tr>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">No</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Tanggal</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Produk</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Modal</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Jual</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Untung</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Customer</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase whitespace-nowrap">Opsi</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">No</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Tanggal</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Produk</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Modal</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Jual</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Untung</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Customer</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Opsi</th>
                 </tr>
               </thead>
-              <tbody id="transaction-table-body" class="bg-white divide-y divide-gray-200 max-w-full break-words">
-                <tr><td colspan="8" class="text-center p-4 text-gray-500">Belum ada data transaksi.</td></tr>
+              <tbody id="transaction-table-body" class="bg-gray-800 divide-y divide-gray-700 max-w-full break-words">
+                <tr><td colspan="8" class="text-center p-4 text-gray-400">Belum ada data transaksi.</td></tr>
               </tbody>
 
               <div class="mt-4 flex flex-col items-center justify-between gap-3 sm:flex-row" id="pagination">
-                <button id="prevPage" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 text-sm">Sebelumnya</button>
-                <span id="pageIndicator" class="text-sm font-medium text-gray-700">1</span>
-                <button id="nextPage" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 text-sm">Berikutnya</button>
+                <button id="prevPage" class="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600 text-sm">Sebelumnya</button>
+                <span id="pageIndicator" class="text-sm font-medium text-gray-200">1</span>
+                <button id="nextPage" class="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600 text-sm">Berikutnya</button>
               </div>
 
             </table>
@@ -83,30 +83,29 @@
       </div>
   </div>
 
-  <!-- Modal -->
   <div id="edit-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center p-4 overflow-auto hidden">
-    <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md mx-2 sm:mx-auto">
-      <h2 class="text-xl font-semibold mb-6 text-blue-600">Edit Transaksi</h2>
+    <div class="bg-gray-800 rounded-xl shadow-2xl p-8 w-full max-w-md mx-2 sm:mx-auto">
+      <h2 class="text-xl font-semibold mb-6 text-blue-400">Edit Transaksi</h2>
       <form id="edit-form" class="space-y-4">
         <input type="hidden" id="edit-id" />
         <div>
-          <label for="edit-product-name" class="block text-sm font-medium text-gray-700">Nama Produk</label>
-          <input type="text" id="edit-product-name" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+          <label for="edit-product-name" class="block text-sm font-medium text-gray-200">Nama Produk</label>
+          <input type="text" id="edit-product-name" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
         </div>
         <div>
-          <label for="edit-cost-price" class="block text-sm font-medium text-gray-700">Harga Modal (Rp)</label>
-          <input type="text" id="edit-cost-price" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+          <label for="edit-cost-price" class="block text-sm font-medium text-gray-200">Harga Modal (Rp)</label>
+          <input type="text" id="edit-cost-price" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
         </div>
         <div>
-          <label for="edit-sell-price" class="block text-sm font-medium text-gray-700">Harga Jual (Rp)</label>
-          <input type="text" id="edit-sell-price" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+          <label for="edit-sell-price" class="block text-sm font-medium text-gray-200">Harga Jual (Rp)</label>
+          <input type="text" id="edit-sell-price" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
         </div>
         <div>
-          <label for="edit-customer-name" class="block text-sm font-medium text-gray-700">Nama Customer</label>
-          <input type="text" id="edit-customer-name" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+          <label for="edit-customer-name" class="block text-sm font-medium text-gray-200">Nama Customer</label>
+          <input type="text" id="edit-customer-name" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
         </div>
         <div class="flex justify-end space-x-4 pt-4">
-          <button type="button" id="cancel-edit" class="bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition">Batal</button>
+          <button type="button" id="cancel-edit" class="bg-gray-700 text-gray-100 py-2 px-4 rounded-md hover:bg-gray-600 transition">Batal</button>
           <button type="submit" class="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition">Simpan Perubahan</button>
         </div>
       </form>
