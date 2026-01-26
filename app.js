@@ -10,6 +10,8 @@ const editForm = document.getElementById('edit-form');
 const cancelEditBtn = document.getElementById('cancel-edit');
 let editIndex = null;
 
+const resetBtn = document.getElementById('reset-transactions');
+
 let transactions = [];
 let currentPage = 1;
 const rowsPerPage = 7;
@@ -62,7 +64,6 @@ function renderTable() {
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const currentData = transactions.slice(startIndex, endIndex);
-  let totalProfit = 0;
 
   if (transactions.length === 0) {
     tableBody.innerHTML = '<tr><td colspan="8" class="text-center p-4 text-gray-500">Belum ada data transaksi.</td></tr>';
@@ -73,7 +74,6 @@ function renderTable() {
 
   currentData.forEach((t, i) => {
     const profit = t.sellPrice - t.costPrice;
-    totalProfit += profit;
     const date = t.date.toLocaleDateString('id-ID');
 
     const row = document.createElement('tr');
@@ -144,6 +144,7 @@ transactionForm.addEventListener('submit', (e) => {
   }
 });
 
+// EDIT TRANSAKSI
 window.editTransaction = function(index) {
   const t = transactions[index];
   editIndex = index;
@@ -176,6 +177,7 @@ cancelEditBtn.addEventListener('click', () => {
   document.getElementById('edit-modal').classList.add('hidden');
 });
 
+// HAPUS TRANSAKSI
 window.deleteTransaction = function(index) {
   if (confirm('Yakin ingin menghapus transaksi ini?')) {
     transactions.splice(index, 1);
@@ -186,6 +188,15 @@ window.deleteTransaction = function(index) {
     renderTable();
   }
 };
+
+// RESET SEMUA TRANSAKSI
+resetBtn.addEventListener('click', () => {
+  if (confirm('Apakah Anda yakin ingin menghapus semua transaksi?')) {
+    transactions = [];
+    localStorage.removeItem('transactions');
+    renderTable();
+  }
+});
 
 loadTransactions();
 renderTable();
