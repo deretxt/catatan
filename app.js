@@ -8,6 +8,7 @@ const prevPageBtn = document.getElementById('prevPage');
 const nextPageBtn = document.getElementById('nextPage');
 const pageIndicator = document.getElementById('pageIndicator');
 const resetBtn = document.getElementById('reset-transactions');
+const resetLeaderboardBtn = document.getElementById('reset-leaderboard');
 
 let dailyTransactions = [];
 let allTransactions = [];
@@ -31,7 +32,7 @@ function formatRibuan(input) {
 }
 
 function parseRupiah(str) {
-  return Number(str.replace(/\./g, ''));
+  return Number(str.replace(/\./g, '')) || 0;
 }
 
 /* ================= LOAD & SAVE ================= */
@@ -59,7 +60,7 @@ function saveAll() {
   localStorage.setItem('allTransactions', JSON.stringify(allTransactions));
 }
 
-/* ================= LEADERBOARD (AKUMULASI) ================= */
+/* ================= LEADERBOARD (AKUMULASI SELAMANYA) ================= */
 
 function renderLeaderboard() {
   leaderboardBody.innerHTML = '';
@@ -129,7 +130,9 @@ function renderTable() {
       </td>
       <td class="px-4 py-2">${t.customerName}</td>
       <td class="px-4 py-2">
-        <button onclick="deleteTransaction(${start + i})" class="text-red-500">Hapus</button>
+        <button onclick="deleteTransaction(${start + i})" class="text-red-500 hover:underline">
+          Hapus
+        </button>
       </td>
     `;
     tableBody.appendChild(row);
@@ -142,8 +145,9 @@ function renderTable() {
 
   totalProfitEl.textContent = formatCurrency(totalProfit);
 
-  const totalPages = Math.ceil(dailyTransactions.length / rowsPerPage);
+  const totalPages = Math.ceil(dailyTransactions.length / rowsPerPage) || 1;
   pageIndicator.textContent = `${currentPage} / ${totalPages}`;
+
   prevPageBtn.disabled = currentPage === 1;
   nextPageBtn.disabled = currentPage === totalPages;
 
@@ -163,10 +167,10 @@ transactionForm.addEventListener('submit', (e) => {
     date: new Date(),
   };
 
-  // MASUK KE HARIAN
+  // Masuk harian
   dailyTransactions.unshift(newTransaction);
 
-  // MASUK KE AKUMULASI (LEADERBOARD)
+  // Masuk leaderboard (akumulasi selamanya)
   allTransactions.unshift(newTransaction);
 
   saveDaily();
@@ -193,7 +197,18 @@ resetBtn.addEventListener('click', () => {
   if (confirm('Reset transaksi & keuntungan hari ini?')) {
     dailyTransactions = [];
     localStorage.removeItem('dailyTransactions');
+    currentPage = 1;
     renderTable();
+  }
+});
+
+/* ================= RESET LEADERBOARD ================= */
+
+resetLeaderboardBtn.addEventListener('click', () => {
+  if (confirm('Reset leaderboard? Semua ranking akan dihapus.')) {
+    allTransactions = [];
+    localStorage.removeItem('allTransactions');
+    renderLeaderboard();
   }
 });
 
