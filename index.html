@@ -6,117 +6,95 @@
   <title>Xnotes By Dere</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
 </head>
 <body class="bg-gray-900 text-gray-100 font-poppins transition-colors duration-300">
   <div class="container mx-auto p-4 sm:p-6 lg:p-8">
-    <header class="mb-8 flex items-center justify-between">
-      <div>
-        <h1 class="text-3xl font-bold text-blue-400">Xnotes</h1>
-        <p class="text-gray-400 mt-1">Catatan transaksi ALOOO ID</p>
-      </div>
+    
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold text-blue-400">Xnotes</h1>
+      <p class="text-gray-400 mt-1">Catatan transaksi ALOOO ID - Edisi Ramadan</p>
     </header>
 
     <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div class="lg:col-span-1">
+      
+      <!-- LEFT -->
+      <div class="space-y-6">
+        
         <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
-          <h2 class="text-xl font-semibold mb-4 text-blue-400">Tambah Transaksi Baru</h2>
+          <h2 class="text-xl font-semibold mb-4 text-blue-400">Tambah Transaksi</h2>
           <form id="transaction-form" class="space-y-4">
-            <div>
-              <label for="product-name" class="block text-sm font-medium text-gray-200">Nama Produk</label>
-              <input type="text" id="product-name" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
-            </div>
-            <div>
-              <label for="cost-price" class="block text-sm font-medium text-gray-200">Harga Modal (Rp)</label>
-              <input type="text" id="cost-price" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
-            </div>
-            <div>
-              <label for="sell-price" class="block text-sm font-medium text-gray-200">Harga Jual (Rp)</label>
-              <input type="text" id="sell-price" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
-            </div>
-            <div>
-              <label for="customer-name" class="block text-sm font-medium text-gray-200">Nama Customer</label>
-              <input type="text" id="customer-name" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
-            </div>
-            <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
-              Simpan Transaksi
-            </button>
-
-            <!-- Tombol Reset Baru -->
-            <button type="button" id="reset-transactions" class="w-full mt-2 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out">
-              Reset Semua Transaksi
-            </button>
+            <input type="text" id="product-name" placeholder="Nama Produk" required class="w-full px-3 py-2 bg-gray-700 rounded-md">
+            <input type="text" id="cost-price" placeholder="Harga Modal (Rp)" required class="w-full px-3 py-2 bg-gray-700 rounded-md">
+            <input type="text" id="sell-price" placeholder="Harga Jual (Rp)" required class="w-full px-3 py-2 bg-gray-700 rounded-md">
+            <input type="text" id="customer-name" placeholder="Nama Customer" required class="w-full px-3 py-2 bg-gray-700 rounded-md">
+            <button type="submit" class="w-full bg-blue-600 py-2 rounded-md hover:bg-blue-700">Simpan</button>
+            <button type="button" id="reset-transactions" class="w-full bg-red-600 py-2 rounded-md hover:bg-red-700">Reset Semua</button>
           </form>
         </div>
 
-        <div class="bg-green-900 border-l-4 border-green-500 text-green-200 p-6 rounded-xl shadow-lg mt-8">
+        <div class="bg-green-900 border-l-4 border-green-500 p-6 rounded-xl shadow-lg">
           <h3 class="text-lg font-semibold">Total Keuntungan</h3>
           <p id="total-profit" class="text-3xl font-bold mt-2">Rp 0</p>
         </div>
-      </div>
 
-      <div class="lg:col-span-2">
-        <div class="bg-gray-800 p-6 rounded-xl shadow-lg overflow-x-auto max-w-full">
-          <h2 class="text-xl font-semibold mb-4 text-blue-400">Riwayat Transaksi</h2>
-          <div class="overflow-x-auto max-w-full">
-            <table class="min-w-full divide-y divide-gray-700 table-auto">
-              <thead class="bg-gray-700">
-                <tr>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">No</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Tanggal</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Produk</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Modal</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Jual</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Untung</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Customer</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase whitespace-nowrap">Opsi</th>
+        <!-- LEADERBOARD -->
+        <div class="bg-blue-900 border-l-4 border-blue-500 p-6 rounded-xl shadow-lg">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold">🏆 Klasemen Customer THR</h3>
+            <select id="leaderboardLimit" class="bg-gray-800 px-2 py-1 rounded text-sm">
+              <option value="10">Top 10</option>
+              <option value="20">Top 20</option>
+            </select>
+          </div>
+
+          <div class="overflow-y-auto max-h-64">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-white-700">
+                  <th class="py-1 text-left">Rank</th>
+                  <th class="text-left">Customer</th>
+                  <th class="text-left">Total</th>
                 </tr>
               </thead>
-              <tbody id="transaction-table-body" class="bg-gray-800 divide-y divide-gray-700 max-w-full break-words">
-                <tr><td colspan="8" class="text-center p-4 text-gray-400">Belum ada data transaksi.</td></tr>
-              </tbody>
-
-              <div class="mt-4 flex flex-col items-center justify-between gap-3 sm:flex-row" id="pagination">
-                <button id="prevPage" class="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600 text-sm">Sebelumnya</button>
-                <span id="pageIndicator" class="text-sm font-medium text-gray-200">1</span>
-                <button id="nextPage" class="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600 text-sm">Berikutnya</button>
-              </div>
-
+              <tbody id="leaderboard-body"></tbody>
             </table>
           </div>
         </div>
+
       </div>
+
+      <!-- RIGHT -->
+      <div class="lg:col-span-2">
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg overflow-x-auto">
+          <h2 class="text-xl font-semibold mb-4 text-blue-400">Riwayat Transaksi</h2>
+
+          <table class="min-w-full text-sm">
+            <thead class="bg-gray-700">
+              <tr>
+                <th class="px-4 py-2 text-left">No</th>
+                <th class="px-4 py-2 text-left">Tanggal</th>
+                <th class="px-4 py-2 text-left">Produk</th>
+                <th class="px-4 py-2 text-left">Modal</th>
+                <th class="px-4 py-2 text-left">Jual</th>
+                <th class="px-4 py-2 text-left">Untung</th>
+                <th class="px-4 py-2 text-left">Customer</th>
+                <th class="px-4 py-2 text-left">Opsi</th>
+              </tr>
+            </thead>
+            <tbody id="transaction-table-body"></tbody>
+          </table>
+
+          <div class="mt-4 flex justify-between items-center">
+            <button id="prevPage" class="px-3 py-1 bg-gray-700 rounded">Sebelumnya</button>
+            <span id="pageIndicator"></span>
+            <button id="nextPage" class="px-3 py-1 bg-gray-700 rounded">Berikutnya</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
   </div>
 
-  <div id="edit-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center p-4 overflow-auto hidden">
-    <div class="bg-gray-800 rounded-xl shadow-2xl p-8 w-full max-w-md mx-2 sm:mx-auto">
-      <h2 class="text-xl font-semibold mb-6 text-blue-400">Edit Transaksi</h2>
-      <form id="edit-form" class="space-y-4">
-        <input type="hidden" id="edit-id" />
-        <div>
-          <label for="edit-product-name" class="block text-sm font-medium text-gray-200">Nama Produk</label>
-          <input type="text" id="edit-product-name" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
-        </div>
-        <div>
-          <label for="edit-cost-price" class="block text-sm font-medium text-gray-200">Harga Modal (Rp)</label>
-          <input type="text" id="edit-cost-price" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
-        </div>
-        <div>
-          <label for="edit-sell-price" class="block text-sm font-medium text-gray-200">Harga Jual (Rp)</label>
-          <input type="text" id="edit-sell-price" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
-        </div>
-        <div>
-          <label for="edit-customer-name" class="block text-sm font-medium text-gray-200">Nama Customer</label>
-          <input type="text" id="edit-customer-name" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-100">
-        </div>
-        <div class="flex justify-end space-x-4 pt-4">
-          <button type="button" id="cancel-edit" class="bg-gray-700 text-gray-100 py-2 px-4 rounded-md hover:bg-gray-600 transition">Batal</button>
-          <button type="submit" class="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition">Simpan Perubahan</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script src="app.js" type="module"></script>
+  <script src="app.js"></script>
 </body>
 </html>
