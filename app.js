@@ -11,7 +11,7 @@ const resetBtn = document.getElementById('reset-transactions');
 
 let transactions = [];
 let currentPage = 1;
-const rowsPerPage = 7;
+const rowsPerPage = 15;
 
 function formatCurrency(number) {
   return new Intl.NumberFormat('id-ID', {
