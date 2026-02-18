@@ -9,9 +9,13 @@ const nextPageBtn = document.getElementById('nextPage');
 const pageIndicator = document.getElementById('pageIndicator');
 const resetBtn = document.getElementById('reset-transactions');
 
-let transactions = [];
+let dailyTransactions = [];
+let allTransactions = [];
+
 let currentPage = 1;
 const rowsPerPage = 15;
+
+/* ================= FORMAT ================= */
 
 function formatCurrency(number) {
   return new Intl.NumberFormat('id-ID', {
@@ -30,35 +34,46 @@ function parseRupiah(str) {
   return Number(str.replace(/\./g, ''));
 }
 
+/* ================= LOAD & SAVE ================= */
+
 function loadTransactions() {
-  const saved = localStorage.getItem('transactions');
-  if (saved) {
-    transactions = JSON.parse(saved).map(t => ({
-      ...t,
-      date: new Date(t.date)
-    }));
-  }
+  dailyTransactions = JSON.parse(localStorage.getItem('dailyTransactions')) || [];
+  allTransactions = JSON.parse(localStorage.getItem('allTransactions')) || [];
+
+  dailyTransactions = dailyTransactions.map(t => ({
+    ...t,
+    date: new Date(t.date)
+  }));
+
+  allTransactions = allTransactions.map(t => ({
+    ...t,
+    date: new Date(t.date)
+  }));
 }
 
-function saveTransactions() {
-  localStorage.setItem('transactions', JSON.stringify(transactions));
+function saveDaily() {
+  localStorage.setItem('dailyTransactions', JSON.stringify(dailyTransactions));
 }
 
-/* LEADERBOARD BERDASARKAN JUMLAH TRANSAKSI */
+function saveAll() {
+  localStorage.setItem('allTransactions', JSON.stringify(allTransactions));
+}
+
+/* ================= LEADERBOARD (AKUMULASI) ================= */
+
 function renderLeaderboard() {
   leaderboardBody.innerHTML = '';
   const limit = parseInt(leaderboardLimit.value);
 
-  if (transactions.length === 0) {
-    leaderboardBody.innerHTML = `
-      <tr><td colspan="3" class="text-center py-2">Belum ada data</td></tr>
-    `;
+  if (allTransactions.length === 0) {
+    leaderboardBody.innerHTML =
+      `<tr><td colspan="3" class="text-center py-2">Belum ada data</td></tr>`;
     return;
   }
 
   const counts = {};
 
-  transactions.forEach(t => {
+  allTransactions.forEach(t => {
     if (!counts[t.customerName]) counts[t.customerName] = 0;
     counts[t.customerName] += 1;
   });
@@ -83,30 +98,35 @@ function renderLeaderboard() {
   });
 }
 
+/* ================= RENDER TABLE (HARIAN) ================= */
+
 function renderTable() {
   tableBody.innerHTML = '';
 
-  if (transactions.length === 0) {
-    tableBody.innerHTML = `<tr><td colspan="8" class="text-center py-4">Belum ada data transaksi.</td></tr>`;
+  if (dailyTransactions.length === 0) {
+    tableBody.innerHTML =
+      `<tr><td colspan="8" class="text-center py-4">Belum ada data transaksi.</td></tr>`;
     totalProfitEl.textContent = formatCurrency(0);
     renderLeaderboard();
     return;
   }
 
   const start = (currentPage - 1) * rowsPerPage;
-  const currentData = transactions.slice(start, start + rowsPerPage);
+  const currentData = dailyTransactions.slice(start, start + rowsPerPage);
 
   currentData.forEach((t, i) => {
     const profit = t.sellPrice - t.costPrice;
 
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td class="px-4 py-2">${transactions.length - (start + i)}</td>
-      <td class="px-4 py-2">${t.date.toLocaleDateString('id-ID')}</td>
+      <td class="px-4 py-2">${dailyTransactions.length - (start + i)}</td>
+      <td class="px-4 py-2">${new Date(t.date).toLocaleDateString('id-ID')}</td>
       <td class="px-4 py-2">${t.productName}</td>
       <td class="px-4 py-2">${formatCurrency(t.costPrice)}</td>
       <td class="px-4 py-2">${formatCurrency(t.sellPrice)}</td>
-      <td class="px-4 py-2 ${profit >= 0 ? 'text-green-500' : 'text-red-500'}">${formatCurrency(profit)}</td>
+      <td class="px-4 py-2 ${profit >= 0 ? 'text-green-500' : 'text-red-500'}">
+        ${formatCurrency(profit)}
+      </td>
       <td class="px-4 py-2">${t.customerName}</td>
       <td class="px-4 py-2">
         <button onclick="deleteTransaction(${start + i})" class="text-red-500">Hapus</button>
@@ -115,16 +135,22 @@ function renderTable() {
     tableBody.appendChild(row);
   });
 
-  const totalProfit = transactions.reduce((sum, t) => sum + (t.sellPrice - t.costPrice), 0);
+  const totalProfit = dailyTransactions.reduce(
+    (sum, t) => sum + (t.sellPrice - t.costPrice),
+    0
+  );
+
   totalProfitEl.textContent = formatCurrency(totalProfit);
 
-  const totalPages = Math.ceil(transactions.length / rowsPerPage);
+  const totalPages = Math.ceil(dailyTransactions.length / rowsPerPage);
   pageIndicator.textContent = `${currentPage} / ${totalPages}`;
   prevPageBtn.disabled = currentPage === 1;
   nextPageBtn.disabled = currentPage === totalPages;
 
   renderLeaderboard();
 }
+
+/* ================= TAMBAH TRANSAKSI ================= */
 
 transactionForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -137,36 +163,41 @@ transactionForm.addEventListener('submit', (e) => {
     date: new Date(),
   };
 
-  transactions.unshift(newTransaction);
-  saveTransactions();
+  // MASUK KE HARIAN
+  dailyTransactions.unshift(newTransaction);
+
+  // MASUK KE AKUMULASI (LEADERBOARD)
+  allTransactions.unshift(newTransaction);
+
+  saveDaily();
+  saveAll();
+
   currentPage = 1;
   renderTable();
   transactionForm.reset();
 });
 
+/* ================= HAPUS (HANYA HARIAN) ================= */
+
 window.deleteTransaction = function(index) {
   if (confirm('Hapus transaksi ini?')) {
-    transactions.splice(index, 1);
-    saveTransactions();
+    dailyTransactions.splice(index, 1);
+    saveDaily();
     renderTable();
   }
 };
 
+/* ================= RESET HARIAN ================= */
+
 resetBtn.addEventListener('click', () => {
-  if (confirm('Hapus semua transaksi?')) {
-    transactions = [];
-    localStorage.removeItem('transactions');
+  if (confirm('Reset transaksi & keuntungan hari ini?')) {
+    dailyTransactions = [];
+    localStorage.removeItem('dailyTransactions');
     renderTable();
   }
 });
 
-leaderboardLimit.addEventListener('change', renderLeaderboard);
-
-['cost-price', 'sell-price'].forEach(id => {
-  document.getElementById(id).addEventListener('input', function() {
-    formatRibuan(this);
-  });
-});
+/* ================= PAGINATION ================= */
 
 prevPageBtn.addEventListener('click', () => {
   if (currentPage > 1) {
@@ -176,12 +207,24 @@ prevPageBtn.addEventListener('click', () => {
 });
 
 nextPageBtn.addEventListener('click', () => {
-  const totalPages = Math.ceil(transactions.length / rowsPerPage);
+  const totalPages = Math.ceil(dailyTransactions.length / rowsPerPage);
   if (currentPage < totalPages) {
     currentPage++;
     renderTable();
   }
 });
+
+/* ================= FORMAT INPUT ================= */
+
+['cost-price', 'sell-price'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    formatRibuan(this);
+  });
+});
+
+leaderboardLimit.addEventListener('change', renderLeaderboard);
+
+/* ================= INIT ================= */
 
 loadTransactions();
 renderTable();
