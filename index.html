@@ -8,7 +8,7 @@
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Tailwind Config (SET POPPINS AS DEFAULT FONT) -->
+  <!-- Tailwind Config -->
   <script>
     tailwind.config = {
       theme: {
@@ -70,17 +70,17 @@
           </form>
         </div>
 
-        <!-- TOTAL PROFIT HARIAN -->
+        <!-- TOTAL PROFIT -->
         <div class="bg-green-900 border-l-4 border-green-500 p-6 rounded-xl shadow-lg">
           <h3 class="text-lg font-semibold">Total Keuntungan Harian</h3>
           <p id="total-profit" class="text-3xl font-bold mt-2">Rp 0</p>
         </div>
 
-        <!-- LEADERBOARD -->
+        <!-- LEADERBOARD PRODUK -->
         <div class="bg-blue-900 border-l-4 border-blue-500 p-6 rounded-xl shadow-lg">
           
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold">🏆 Klasemen Customer THR</h3>
+            <h3 class="text-lg font-semibold">🏆 Produk Terlaris</h3>
 
             <div class="flex items-center gap-2">
               
@@ -90,7 +90,6 @@
                 <option value="20">Top 20</option>
               </select>
 
-              <!-- RESET LEADERBOARD -->
               <button id="reset-leaderboard"
                 class="bg-yellow-600 hover:bg-yellow-700 px-2 py-1 rounded text-xs transition">
                 Reset
@@ -100,12 +99,12 @@
           </div>
 
           <div class="overflow-y-auto max-h-64">
-            <table class="w-full text-base">
+            <table class="w-full text-lg">
               <thead>
                 <tr class="border-b border-yellow-700">
                   <th class="py-1 text-left">Rank</th>
-                  <th class="text-left">Customer</th>
-                  <th class="text-left">Jumlah Transaksi</th>
+                  <th class="text-left">Produk</th>
+                  <th class="text-left">Terjual</th>
                 </tr>
               </thead>
               <tbody id="leaderboard-body"></tbody>
