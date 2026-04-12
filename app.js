@@ -14,7 +14,7 @@ let dailyTransactions = [];
 let allTransactions = [];
 
 let currentPage = 1;
-const rowsPerPage = 15;
+const rowsPerPage = 7;
 
 /* ================= FORMAT ================= */
 
@@ -60,7 +60,7 @@ function saveAll() {
   localStorage.setItem('allTransactions', JSON.stringify(allTransactions));
 }
 
-/* ================= LEADERBOARD (AKUMULASI SELAMANYA) ================= */
+/* ================= LEADERBOARD (PRODUK TERLARIS) ================= */
 
 function renderLeaderboard() {
   leaderboardBody.innerHTML = '';
@@ -74,16 +74,17 @@ function renderLeaderboard() {
 
   const counts = {};
 
+  // 🔥 HITUNG BERDASARKAN PRODUK
   allTransactions.forEach(t => {
-    if (!counts[t.customerName]) counts[t.customerName] = 0;
-    counts[t.customerName] += 1;
+    if (!counts[t.productName]) counts[t.productName] = 0;
+    counts[t.productName] += 1;
   });
 
   const sorted = Object.entries(counts)
     .sort((a, b) => b[1] - a[1])
     .slice(0, limit);
 
-  sorted.forEach((cust, index) => {
+  sorted.forEach((prod, index) => {
     let color = '';
     if (index === 0) color = 'text-yellow-400 font-bold';
     if (index === 1) color = 'text-gray-300 font-bold';
@@ -92,8 +93,8 @@ function renderLeaderboard() {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td class="py-1 ${color}">${index + 1}</td>
-      <td>${cust[0]}</td>
-      <td>${cust[1]} transaksi</td>
+      <td>${prod[0]}</td>
+      <td>${prod[1]}x</td>
     `;
     leaderboardBody.appendChild(row);
   });
@@ -167,10 +168,7 @@ transactionForm.addEventListener('submit', (e) => {
     date: new Date(),
   };
 
-  // Masuk harian
   dailyTransactions.unshift(newTransaction);
-
-  // Masuk leaderboard (akumulasi selamanya)
   allTransactions.unshift(newTransaction);
 
   saveDaily();
@@ -181,7 +179,7 @@ transactionForm.addEventListener('submit', (e) => {
   transactionForm.reset();
 });
 
-/* ================= HAPUS (HANYA HARIAN) ================= */
+/* ================= HAPUS ================= */
 
 window.deleteTransaction = function(index) {
   if (confirm('Hapus transaksi ini?')) {
@@ -191,7 +189,7 @@ window.deleteTransaction = function(index) {
   }
 };
 
-/* ================= RESET HARIAN ================= */
+/* ================= RESET ================= */
 
 resetBtn.addEventListener('click', () => {
   if (confirm('Reset transaksi & keuntungan hari ini?')) {
@@ -201,8 +199,6 @@ resetBtn.addEventListener('click', () => {
     renderTable();
   }
 });
-
-/* ================= RESET LEADERBOARD ================= */
 
 resetLeaderboardBtn.addEventListener('click', () => {
   if (confirm('Reset leaderboard? Semua ranking akan dihapus.')) {
